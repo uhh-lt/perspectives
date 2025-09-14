@@ -11,7 +11,7 @@ from experiments.clustering_evaluation import (
     evaluate_2d_classification,
     evaluate_clustering,
 )
-from models import SupportedModel
+from experiments.models import SupportedModel
 
 # Ensure that CUDA_VISIBLE_DEVICES is set to use the first GPU
 if "CUDA_VISIBLE_DEVICES" not in os.environ:
@@ -131,6 +131,10 @@ def document_embedding_fewshot(
     assert test_dataset_text_column in test_df.columns, (
         f"Column '{test_dataset_text_column}' not found in the test dataset."
     )
+    # filter out rows where text is None, empty or starts with "Error:"
+    mask = test_df[test_dataset_text_column].isnull() | (test_df[test_dataset_text_column].str.strip() == "") | test_df[test_dataset_text_column].str.startswith("Error:")
+    test_df = test_df[~mask]
+
     label_names = test_df[test_dataset_label_column].unique().tolist()
     label2id = {name: idx for idx, name in enumerate(label_names)}
     eval_dataset = Dataset.from_dict(
@@ -139,8 +143,6 @@ def document_embedding_fewshot(
             "label": test_df[test_dataset_label_column].tolist(),
         }
     )
-    # filter out rows where text starts with "Error:"
-    eval_dataset = eval_dataset.filter(lambda x: not x["text"].startswith("Error:"))
     # prepend the instruction
     if instruction is not None:
         eval_dataset = eval_dataset.map(
@@ -158,8 +160,8 @@ def document_embedding_fewshot(
     assert list(train_dataset.features.keys()) == ["text", "label"], (
         f"Expected train_dataset features to be ['text', 'label'], got {train_dataset.features}"
     )
-    # filter out rows where text starts with "Error:"
-    train_dataset = train_dataset.filter(lambda x: not x["text"].startswith("Error:"))
+    # filter out rows where text is None, empty or starts with "Error:"
+    train_dataset = train_dataset.filter(lambda x: x["text"] is not None and x["text"].strip() != "" and not x["text"].startswith("Error:"))
     # prepend the instruction
     if instruction is not None:
         train_dataset = train_dataset.map(
@@ -257,13 +259,7 @@ def document_embedding_fewshot(
 
     # CLUSTERING EVALUATION
 
-    # create a filter mask to remove rows where text_colum starts with "Error:"
-    mask = test_df[test_dataset_text_column].str.startswith("Error:")
-    test_df = test_df[~mask]
     labels = test_df[test_dataset_label_column].map(label2id).astype(int).tolist()
-
-    # Filter embeddings based on the filter mask
-    embeddings = embeddings[~mask]
 
     # Check if embeddings and labels have the same length
     if len(embeddings) != len(labels):

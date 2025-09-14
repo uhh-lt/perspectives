@@ -13,6 +13,10 @@ class SupportedDatasets(Enum):
     SPOTIFY = "spotify"
     AMAZON = "amazon"
     NEWSGROUPS = "newsgroups"
+    NEWSBIAS2 = "newsbias2"
+    GVFC = "gvfc"
+    GERMEVAL = "germeval"
+    REDDITCONFLICT = "redditconflict"
 
     def dataset_path(self, variant: Literal["train", "test"]) -> Path:
         base_path = Path("../datasets")
@@ -21,7 +25,15 @@ class SupportedDatasets(Enum):
         elif self == SupportedDatasets.AMAZON:
             return base_path / f"amazon/data/amazon_{variant}.parquet"
         elif self == SupportedDatasets.NEWSGROUPS:
-            return base_path / f"20/newsgroups/data/newsgroups_{variant}.parquet"
+            return base_path / f"newsgroups/data/newsgroups_{variant}.parquet"
+        elif self == SupportedDatasets.NEWSBIAS2:
+            return base_path / f"newsbias2/data/newsbias2_{variant}.parquet"
+        elif self == SupportedDatasets.GVFC:
+            return base_path / f"gvfc/data/gvfc_{variant}.parquet"
+        elif self == SupportedDatasets.GERMEVAL:
+            return base_path / f"germeval/data/germeval_{variant}.parquet"
+        elif self == SupportedDatasets.REDDITCONFLICT:
+            return base_path / f"redditconflict/data/redditconflict_{variant}.parquet"
         else:
             raise ValueError(f"Unsupported dataset: {self}")
 

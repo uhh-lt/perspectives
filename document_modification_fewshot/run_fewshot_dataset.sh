@@ -47,3 +47,63 @@ for ASPECT in "${ASPECTS[@]}"; do
             --output-path "${DATASET}/${DATASET}_${ASPECT}_${COLUMN}"
     done
 done
+
+DATASET=newsbias2
+ASPECTS=("bias")
+
+for ASPECT in "${ASPECTS[@]}"; do
+    COLUMNS=("text" "${ASPECT}-summary" "${ASPECT}-keyphrases")
+
+    for COLUMN in "${COLUMNS[@]}"; do
+        uv run convert_to_dataset.py \
+            --dataset-dir "$DATASET" \
+            --text-column "$COLUMN" \
+            --label-column "$ASPECT" \
+            --output-path "${DATASET}/${DATASET}_${ASPECT}_${COLUMN}"
+    done
+done
+
+DATASET=gvfc
+ASPECTS=("frame")
+
+for ASPECT in "${ASPECTS[@]}"; do
+    COLUMNS=("text" "${ASPECT}-summary" "${ASPECT}-keyphrases")
+
+    for COLUMN in "${COLUMNS[@]}"; do
+        uv run convert_to_dataset.py \
+            --dataset-dir "$DATASET" \
+            --text-column "$COLUMN" \
+            --label-column "$ASPECT" \
+            --output-path "${DATASET}/${DATASET}_${ASPECT}_${COLUMN}"
+    done
+done
+
+DATASET=germeval
+ASPECTS=("category")
+
+for ASPECT in "${ASPECTS[@]}"; do
+    COLUMNS=("text" "${ASPECT}-summary" "${ASPECT}-keyphrases")
+
+    for COLUMN in "${COLUMNS[@]}"; do
+        uv run convert_to_dataset.py \
+            --dataset-dir "$DATASET" \
+            --text-column "$COLUMN" \
+            --label-column "$ASPECT" \
+            --output-path "${DATASET}/${DATASET}_${ASPECT}_${COLUMN}"
+    done
+done
+
+DATASET=redditconflict
+ASPECTS=("sentiment")
+
+for ASPECT in "${ASPECTS[@]}"; do
+    COLUMNS=("text" "${ASPECT}-summary" "${ASPECT}-keyphrases")
+
+    for COLUMN in "${COLUMNS[@]}"; do
+        uv run convert_to_dataset.py \
+            --dataset-dir "$DATASET" \
+            --text-column "$COLUMN" \
+            --label-column "$ASPECT" \
+            --output-path "${DATASET}/${DATASET}_${ASPECT}_${COLUMN}"
+    done
+done

@@ -65,7 +65,7 @@ def run_experiment(
 
 @app.command()
 def spotify_emotion():
-    print("Running Spotify Emotion Experiment")
+    print("Running Spotify 'Emotion' Experiment")
 
     model_name = SupportedModel.MULTILINGUAL_E5_LARGE_INSTRUCT
     model_name_short = "multie5li"
@@ -88,7 +88,7 @@ def spotify_emotion():
 
 @app.command()
 def spotify_genre():
-    print("Running Spotify Genre Experiment")
+    print("Running Spotify 'Genre' Experiment")
 
     model_name = SupportedModel.MULTILINGUAL_E5_LARGE_INSTRUCT
     model_name_short = "multie5li"
@@ -111,7 +111,7 @@ def spotify_genre():
 
 @app.command()
 def amazon_stars():
-    print("Running Amazon Stars Experiment")
+    print("Running Amazon 'Stars' Experiment")
 
     model_name = SupportedModel.MULTILINGUAL_E5_LARGE_INSTRUCT
     model_name_short = "multie5li"
@@ -134,7 +134,7 @@ def amazon_stars():
 
 @app.command()
 def amazon_product_category():
-    print("Running Amazon Product Category Experiment")
+    print("Running Amazon 'Product Category' Experiment")
 
     model_name = SupportedModel.MULTILINGUAL_E5_LARGE_INSTRUCT
     model_name_short = "multie5li"
@@ -157,7 +157,7 @@ def amazon_product_category():
 
 @app.command()
 def newsgroups_topic():
-    print("Running Newsgroups Topic Experiment")
+    print("Running Newsgroups 'Topic' Experiment")
 
     model_name = SupportedModel.MULTILINGUAL_E5_LARGE_INSTRUCT
     model_name_short = "multie5li"
@@ -177,6 +177,94 @@ def newsgroups_topic():
         instructions=instructions,
     )
 
+@app.command()
+def newsbias2_bias():
+    print("Running News Bias 2 'Bias' Experiment")
+
+    model_name = SupportedModel.MULTILINGUAL_E5_LARGE_INSTRUCT
+    model_name_short = "multie5li"
+    dataset_name = "newsbias2"
+    label_column = "bias"
+    instructions = [
+        "Identify the political framing (left, center, right) present in the given news article",
+        "Identify the political framing (left, center, right) present in the given summary of a news article",
+        "Identify the political framing (left, center, right) present in the given keyphrases of a news article",
+    ]
+
+    run_experiment(
+        model_name=model_name,
+        model_name_short=model_name_short,
+        dataset_name=dataset_name,
+        label_column=label_column,
+        instructions=instructions,
+    )
+
+
+@app.command()
+def gvfc_frame():
+    print("Running GVFC 'Frame' Experiment")
+
+    model_name = SupportedModel.MULTILINGUAL_E5_LARGE_INSTRUCT
+    model_name_short = "multie5li"
+    dataset_name = "gvfc"
+    label_column = "frame"
+    instructions = [
+        "Identify the frame or perspective presented in the given news article",
+        "Identify the main frame described by the given summary of a news article",
+        "Identify the main frame described by the given keyphrases of a news article",
+    ]
+
+    run_experiment(
+        model_name=model_name,
+        model_name_short=model_name_short,
+        dataset_name=dataset_name,
+        label_column=label_column,
+        instructions=instructions,
+    )
+
+@app.command()
+def germeval_category():
+    print("Running Germeval 'Category' Experiment")
+
+    model_name = SupportedModel.MULTILINGUAL_E5_LARGE_INSTRUCT
+    model_name_short = "multie5li"
+    dataset_name = "germeval"
+    label_column = "category"
+    instructions = [
+        "Identifiziere das allgemeine Schreibgenre des gegebenen Klappentextes",
+        "Identifiziere das allgemeine Schreibgenre, das in der Zusammenfassung des Klappentextes beschrieben wird",
+        "Identifiziere das allgemeine Schreibgenre, das durch die Schlüsselbegriffe des Klappentextes beschrieben wird",
+    ]
+
+    run_experiment(
+        model_name=model_name,
+        model_name_short=model_name_short,
+        dataset_name=dataset_name,
+        label_column=label_column,
+        instructions=instructions,
+    )
+
+@app.command()
+def redditconflict_sentiment():
+    print("Running Reddit Conflict 'Sentiment' Experiment")
+
+    model_name = SupportedModel.MULTILINGUAL_E5_LARGE_INSTRUCT
+    model_name_short = "multie5li"
+    dataset_name = "redditconflict"
+    label_column = "sentiment"
+    instructions = [
+        "Identify the stance towards the Israel-Palestine conflict (Pro-Israel, Pro-Palestine, Neutral) present in the given news article",
+        "Identify the stance towards the Israel-Palestine conflict (Pro-Israel, Pro-Palestine, Neutral) present in the given summary of a news article",
+        "Identify the stance towards the Israel-Palestine conflict (Pro-Israel, Pro-Palestine, Neutral) present in the given keyphrases of a news article",
+    ]
+
+    run_experiment(
+        model_name=model_name,
+        model_name_short=model_name_short,
+        dataset_name=dataset_name,
+        label_column=label_column,
+        instructions=instructions,
+    )
 
 if __name__ == "__main__":
     app()

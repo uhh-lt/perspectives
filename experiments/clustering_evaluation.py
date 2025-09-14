@@ -40,10 +40,10 @@ def load_dataset(
     if text_column not in df.columns:
         raise ValueError(f"Text column '{text_column}' not found in the dataset.")
 
-    # create a filter mask to remove rows where text_colum starts with "Error:"
-    mask = df[text_column].str.startswith("Error:")
+    # create a filter mask to remove rows where text_column is null or empty or starts with "Error:"
+    mask = df[text_column].isnull() | (df[text_column].str.strip() == "") | df[text_column].str.startswith("Error:")
     df = df[~mask]
-    print(f"Filtered out {mask.sum()} rows with 'Error:' in '{text_column}' column.")
+    print(f"Filtered out {mask.sum()} rows with empty or erroneous '{text_column}' column.")
 
     label_names = df[label_column].unique().tolist()
     label2id = {name: idx for idx, name in enumerate(label_names)}

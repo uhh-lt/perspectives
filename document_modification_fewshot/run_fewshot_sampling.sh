@@ -40,3 +40,35 @@ uv run sample_fewshot_examples.py \
 --text-column text \
 --category-column label \
 --output-dir newsgroups
+
+# News Bias 2 Dataset Modification
+
+uv run sample_fewshot_examples.py \
+--dataset newsbias2 \
+--text-column text \
+--category-column bias \
+--output-dir newsbias2
+
+# GVFC Dataset Modification
+
+uv run sample_fewshot_examples.py \
+--dataset gvfc \
+--text-column text \
+--category-column frame \
+--output-dir gvfc
+
+# Germeval Dataset Modification
+
+uv run sample_fewshot_examples.py \
+--dataset germeval \
+--text-column text \
+--category-column category \
+--output-dir germeval
+
+# Reddit Conflict Dataset Modification
+
+uv run sample_fewshot_examples.py \
+--dataset redditconflict \
+--text-column text \
+--category-column sentiment \
+--output-dir redditconflict
